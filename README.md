@@ -22,9 +22,15 @@ gender, country, region, and religion**.
    curated topic's keywords and picks the best match above a threshold.
 
 3. **AI-simulated fallback.** If nothing in the curated set matches closely
-   enough, `src/lib/estimate.ts` deterministically generates a clearly
-   labeled **AI-simulated estimate** instead of pretending a real poll
-   exists. Same query → same numbers, but it is not real survey data.
+   enough, `src/lib/estimate.ts` generates a clearly labeled **AI-simulated
+   estimate** instead of pretending a real poll exists. This isn't a random
+   number: it's anchored to the closest related topics already in the
+   curated dataset (weighted by keyword relevance), so it starts from a real,
+   comparable base rate rather than pure noise — and if literally nothing
+   in the dataset relates to the search, it falls back to a neutral,
+   explicitly-labeled baseline instead of guessing. Same query → same
+   numbers, but it is still not real survey data, and the app tells you
+   exactly why you're seeing an estimate and what it's anchored to.
 
 ## Development
 

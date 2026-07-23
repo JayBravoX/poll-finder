@@ -34,9 +34,18 @@ export function ResultView({ result }: ResultViewProps) {
 
       <h2 className="result-question">{topic.query}</h2>
 
+      {kind === 'estimated' && (
+        <p className="estimate-explainer">
+          <strong>Why you're seeing this:</strong> no topic in Poll Finder's curated, real-poll dataset matched
+          this search closely enough to show genuine survey data. Rather than inventing numbers and presenting
+          them as if they were real, the chart below is a clearly labeled, methodology-transparent estimate.{' '}
+          {topic.source.sampleNote}
+        </p>
+      )}
+
       <DimensionTabs available={available} active={active} onChange={setActive} />
 
-      {activeBreakdown && (
+      {kind === 'real' && activeBreakdown && (
         <p className={`breakdown-note ${activeBreakdown.confidence === 'reported' ? 'note-reported' : 'note-modeled'}`}>
           <strong>{activeBreakdown.confidence === 'reported' ? 'Reported: ' : 'Modeled: '}</strong>
           {activeBreakdown.note ??
@@ -54,31 +63,24 @@ export function ResultView({ result }: ResultViewProps) {
         disagreeLabel={topic.disagreeLabel}
       />
 
-      <div className="source-card">
-        {kind === 'real' ? (
-          <>
-            <div className="source-org">{topic.source.org}</div>
-            <div className="source-title">
-              {topic.source.url ? (
-                <a href={topic.source.url} target="_blank" rel="noreferrer">
-                  {topic.source.title}
-                </a>
-              ) : (
-                topic.source.title
-              )}
-            </div>
-            <div className="source-meta">
-              {topic.source.date}
-              {topic.source.sampleNote ? ` · ${topic.source.sampleNote}` : ''}
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="source-title">{topic.source.title}</div>
-            <div className="source-meta">{topic.source.sampleNote}</div>
-          </>
-        )}
-      </div>
+      {kind === 'real' && (
+        <div className="source-card">
+          <div className="source-org">{topic.source.org}</div>
+          <div className="source-title">
+            {topic.source.url ? (
+              <a href={topic.source.url} target="_blank" rel="noreferrer">
+                {topic.source.title}
+              </a>
+            ) : (
+              topic.source.title
+            )}
+          </div>
+          <div className="source-meta">
+            {topic.source.date}
+            {topic.source.sampleNote ? ` · ${topic.source.sampleNote}` : ''}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

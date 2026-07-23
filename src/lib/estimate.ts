@@ -1,12 +1,19 @@
 import type { Breakdown, DimensionKey, GroupSplit, PollTopic, StanceSplit } from '../data/types';
+import { searchPolls } from './search';
 import { normalize } from './text';
 
 /**
- * Fallback generator for queries that don't match the curated real-poll dataset.
- * Every number here is a deterministic, seeded simulation — NOT real survey data.
- * Same query always reproduces the same numbers (so filtering/re-rendering is stable),
- * but nothing here should ever be presented as a genuine poll result.
+ * Fallback generator for queries that don't match the curated real-poll dataset closely
+ * enough to be shown as real data. Nothing here is a survey result. But it also isn't
+ * arbitrary noise: the overall split is anchored to the closest related topics in the
+ * curated dataset (by keyword relevance), so an estimate for an unpolled topic at least
+ * starts from a real, comparable base rate instead of a random number. Same query always
+ * reproduces the same numbers.
  */
+
+const NEIGHBOR_COUNT = 3;
+/** With no related topic in the curated set at all, fall back to this uninformative prior. */
+const NO_INFO_PRIOR: StanceSplit = { agree: 45, neutral: 25, disagree: 30 };
 
 function seedFromString(s: string): number {
   let h = 0;
@@ -49,19 +56,48 @@ function clamp(n: number, lo: number, hi: number): number {
   return Math.min(hi, Math.max(lo, n));
 }
 
-function estimateOverall(queryNorm: string): StanceSplit {
+interface Basis {
+  overall: StanceSplit;
+  neighborQueries: string[];
+}
+
+/** Blends the overall split of the closest related curated topics, weighted by match score. */
+function findBasis(rawQuery: string): Basis {
+  const hits = searchPolls(rawQuery).slice(0, NEIGHBOR_COUNT);
+  if (hits.length === 0) {
+    return { overall: NO_INFO_PRIOR, neighborQueries: [] };
+  }
+  const totalWeight = hits.reduce((sum, h) => sum + h.score, 0);
+  const blended = hits.reduce(
+    (acc, h) => {
+      const w = h.score / totalWeight;
+      acc.agree += h.topic.overall.agree * w;
+      acc.neutral += h.topic.overall.neutral * w;
+      acc.disagree += h.topic.overall.disagree * w;
+      return acc;
+    },
+    { agree: 0, neutral: 0, disagree: 0 },
+  );
+  return { overall: blended, neighborQueries: hits.map((h) => h.topic.query) };
+}
+
+function estimateOverall(queryNorm: string, basis: StanceSplit): StanceSplit {
   const rng = rngFor(queryNorm, 'overall');
-  const agree = clamp(Math.round(28 + rng() * 48), 5, 90); // 28-76 range
+  // Small deterministic nudge around the neighbor-blended base rate, since this exact
+  // question wasn't actually asked — not a wide-open random draw.
+  const nudge = Math.round((rng() - 0.5) * 16); // +-8 points
+  const agree = clamp(Math.round(basis.agree) + nudge, 3, 93);
   const remainder = 100 - agree;
-  const neutralShare = 0.15 + rng() * 0.35;
-  const neutral = Math.round(remainder * neutralShare);
+  const baseRemainder = basis.neutral + basis.disagree;
+  const neutralRatio = baseRemainder > 0 ? basis.neutral / baseRemainder : 0.4;
+  const neutral = Math.round(remainder * neutralRatio);
   const disagree = 100 - agree - neutral;
   return { agree, neutral, disagree };
 }
 
 function estimateGroup(queryNorm: string, dimension: DimensionKey, group: string, overall: StanceSplit): GroupSplit {
   const rng = rngFor(queryNorm, dimension, group);
-  const jitter = Math.round((rng() - 0.5) * 34); // +-17 points
+  const jitter = Math.round((rng() - 0.5) * 30); // +-15 points of illustrative demographic spread
   const agree = clamp(overall.agree + jitter, 4, 92);
   const remainder = 100 - agree;
   const baseRemainder = overall.neutral + overall.disagree;
@@ -73,13 +109,19 @@ function estimateGroup(queryNorm: string, dimension: DimensionKey, group: string
 
 export function buildEstimatedTopic(rawQuery: string): PollTopic {
   const queryNorm = normalize(rawQuery);
-  const overall = estimateOverall(queryNorm);
+  const basis = findBasis(rawQuery);
+  const overall = estimateOverall(queryNorm, basis.overall);
+
+  const note =
+    basis.neighborQueries.length > 0
+      ? `No survey asks this exact question. This estimate is anchored to the closest related topics already in our real-poll dataset (${basis.neighborQueries.join('; ')}), then adjusted — it is not a measurement of this specific statement.`
+      : 'No related topic exists anywhere in our real-poll dataset, so this starts from a neutral, uninformative baseline rather than any survey data at all. Treat it as illustrative only.';
 
   const breakdowns: Partial<Record<DimensionKey, Breakdown>> = {};
   (Object.keys(DIMENSION_GROUPS) as DimensionKey[]).forEach((dim) => {
     breakdowns[dim] = {
       confidence: 'modeled',
-      note: 'AI-simulated — not a real survey. Generated deterministically from your search text; treat as illustrative only.',
+      note,
       groups: DIMENSION_GROUPS[dim].map((g) => estimateGroup(queryNorm, dim, g, overall)),
     };
   });
@@ -97,7 +139,7 @@ export function buildEstimatedTopic(rawQuery: string): PollTopic {
       title: 'No matching real poll exists in the curated dataset for this search',
       url: '',
       date: 'n/a',
-      sampleNote: 'These numbers are generated, not measured — there is no survey behind them.',
+      sampleNote: note,
     },
     overall,
     breakdowns,

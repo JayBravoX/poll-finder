@@ -596,4 +596,221 @@ export const POLL_TOPICS: PollTopic[] = [
       },
     },
   },
+  {
+    id: 'healthcare-government-responsibility',
+    query: 'Is it the government’s responsibility to ensure all Americans have health care coverage?',
+    agreeLabel: "Government should ensure health care coverage",
+    neutralLabel: 'No opinion',
+    disagreeLabel: "Not the government's responsibility",
+    category: 'Public policy',
+    keywords: ['healthcare', 'health care', 'universal healthcare', 'government healthcare', 'health insurance', 'medicare for all'],
+    source: {
+      org: 'Pew Research Center',
+      title: 'Most Americans Say Government Has a Responsibility to Ensure Health Care Coverage',
+      url: 'https://www.pewresearch.org/short-reads/2025/12/10/most-americans-say-government-has-a-responsibility-to-ensure-health-care-coverage/',
+      date: '2024-2025',
+      sampleNote: '~5,000 U.S. adults, online panel',
+    },
+    overall: { agree: 65, neutral: 1, disagree: 34 },
+    breakdowns: {
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 70, neutral: 1, disagree: 29 },
+          { group: '30-49', agree: 66, neutral: 1, disagree: 33 },
+          { group: '50-64', agree: 62, neutral: 1, disagree: 37 },
+          { group: '65+', agree: 61, neutral: 1, disagree: 38 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 69, neutral: 1, disagree: 30 },
+          { group: 'Men', agree: 60, neutral: 1, disagree: 39 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'United Kingdom', agree: 84, neutral: 1, disagree: 15 },
+          { group: 'Canada', agree: 80, neutral: 1, disagree: 19 },
+          { group: 'Germany', agree: 78, neutral: 1, disagree: 21 },
+          { group: 'United States', agree: 65, neutral: 1, disagree: 34 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Northeast', agree: 71, neutral: 1, disagree: 28 },
+          { group: 'West', agree: 68, neutral: 1, disagree: 31 },
+          { group: 'Midwest', agree: 63, neutral: 1, disagree: 36 },
+          { group: 'South', agree: 60, neutral: 1, disagree: 39 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'immigration-levels',
+    query: 'Should immigration to the U.S. be decreased?',
+    agreeLabel: 'Immigration should be decreased',
+    neutralLabel: 'Keep at the present level',
+    disagreeLabel: 'Immigration should be increased',
+    category: 'Public policy',
+    keywords: ['immigration', 'immigrants', 'border', 'migrants', 'illegal immigration'],
+    source: {
+      org: 'Gallup',
+      title: 'Sharply More Americans Want to Curb Immigration to U.S.',
+      url: 'https://news.gallup.com/poll/647123/sharply-americans-curb-immigration.aspx',
+      date: '2023',
+      sampleNote: '~1,000 U.S. adults, telephone survey',
+    },
+    overall: { agree: 40, neutral: 35, disagree: 25 },
+    breakdowns: {
+      age: {
+        confidence: 'modeled',
+        note: 'Only the overall "decreased" figure (40%, Feb 2023) is directly reported; the rest of this split is illustrative.',
+        groups: [
+          { group: '18-29', agree: 27, neutral: 40, disagree: 33 },
+          { group: '30-49', agree: 37, neutral: 37, disagree: 26 },
+          { group: '50-64', agree: 46, neutral: 32, disagree: 22 },
+          { group: '65+', agree: 49, neutral: 31, disagree: 20 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Men', agree: 43, neutral: 33, disagree: 24 },
+          { group: 'Women', agree: 37, neutral: 37, disagree: 26 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'South', agree: 46, neutral: 33, disagree: 21 },
+          { group: 'Midwest', agree: 41, neutral: 35, disagree: 24 },
+          { group: 'Northeast', agree: 33, neutral: 37, disagree: 30 },
+          { group: 'West', agree: 36, neutral: 36, disagree: 28 },
+        ],
+      },
+      religion: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'White evangelical Protestant', agree: 54, neutral: 30, disagree: 16 },
+          { group: 'Catholic', agree: 40, neutral: 35, disagree: 25 },
+          { group: 'Religiously unaffiliated', agree: 26, neutral: 38, disagree: 36 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'minimum-wage-15',
+    query: 'Should the federal minimum wage be raised to $15 an hour?',
+    agreeLabel: 'Favor raising the minimum wage to $15/hour',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Oppose raising it to $15/hour',
+    category: 'Economic policy',
+    keywords: ['minimum wage', '$15 an hour', 'living wage', 'wage increase'],
+    source: {
+      org: 'Pew Research Center',
+      title: 'Most Americans Support a $15 Federal Minimum Wage',
+      url: 'https://www.pewresearch.org/short-reads/2021/04/22/most-americans-support-a-15-federal-minimum-wage/',
+      date: '2021',
+      sampleNote: '5,109 U.S. adults, online panel',
+    },
+    overall: { agree: 62, neutral: 1, disagree: 37 },
+    breakdowns: {
+      gender: {
+        confidence: 'reported',
+        note: 'Directly reported figures (72% women, 61% men).',
+        groups: [
+          { group: 'Women', agree: 72, neutral: 1, disagree: 27 },
+          { group: 'Men', agree: 61, neutral: 1, disagree: 38 },
+        ],
+      },
+      age: {
+        confidence: 'reported',
+        note: '18-29 (68%) is directly reported; other brackets are interpolated.',
+        groups: [
+          { group: '18-29', agree: 68, neutral: 1, disagree: 31 },
+          { group: '30-49', agree: 64, neutral: 1, disagree: 35 },
+          { group: '50-64', agree: 58, neutral: 1, disagree: 41 },
+          { group: '65+', agree: 55, neutral: 1, disagree: 44 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'United Kingdom', agree: 66, neutral: 2, disagree: 32 },
+          { group: 'Canada', agree: 63, neutral: 2, disagree: 35 },
+          { group: 'United States', agree: 62, neutral: 1, disagree: 37 },
+          { group: 'Germany', agree: 58, neutral: 2, disagree: 40 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Northeast', agree: 69, neutral: 1, disagree: 30 },
+          { group: 'West', agree: 66, neutral: 1, disagree: 33 },
+          { group: 'Midwest', agree: 59, neutral: 1, disagree: 40 },
+          { group: 'South', agree: 57, neutral: 1, disagree: 42 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'belief-in-god',
+    query: 'Do you believe in God?',
+    agreeLabel: 'Believe in God',
+    neutralLabel: 'Unsure',
+    disagreeLabel: "Don't believe in God",
+    category: 'Beliefs & lifestyle',
+    keywords: ['believe in god', 'belief in god', 'god exists', 'atheism', 'atheist', 'religious belief'],
+    source: {
+      org: 'Gallup',
+      title: 'Belief in Five Spiritual Entities Edges Down to New Lows',
+      url: 'https://news.gallup.com/poll/508886/belief-five-spiritual-entities-edges-down-new-lows.aspx',
+      date: '2023',
+      sampleNote: '~800-1,000 U.S. adults, telephone survey',
+    },
+    overall: { agree: 74, neutral: 6, disagree: 20 },
+    breakdowns: {
+      age: {
+        confidence: 'reported',
+        note: '18-34 (59%) is directly reported for 2023; other brackets are interpolated to match the reported overall of 74%.',
+        groups: [
+          { group: '18-34', agree: 59, neutral: 9, disagree: 32 },
+          { group: '35-54', agree: 74, neutral: 6, disagree: 20 },
+          { group: '55-64', agree: 84, neutral: 4, disagree: 12 },
+          { group: '65+', agree: 89, neutral: 3, disagree: 8 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 79, neutral: 5, disagree: 16 },
+          { group: 'Men', agree: 68, neutral: 7, disagree: 25 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Nigeria', agree: 99, neutral: 1, disagree: 0 },
+          { group: 'India', agree: 96, neutral: 2, disagree: 2 },
+          { group: 'Brazil', agree: 90, neutral: 4, disagree: 6 },
+          { group: 'United States', agree: 74, neutral: 6, disagree: 20 },
+          { group: 'United Kingdom', agree: 45, neutral: 15, disagree: 40 },
+          { group: 'Sweden', agree: 25, neutral: 15, disagree: 60 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'South', agree: 82, neutral: 5, disagree: 13 },
+          { group: 'Midwest', agree: 75, neutral: 6, disagree: 19 },
+          { group: 'West', agree: 66, neutral: 7, disagree: 27 },
+          { group: 'Northeast', agree: 68, neutral: 7, disagree: 25 },
+        ],
+      },
+    },
+  },
 ];

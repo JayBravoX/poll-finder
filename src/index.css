@@ -243,6 +243,19 @@ a {
   line-height: 1.3;
 }
 
+.estimate-explainer {
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--status-critical) 8%, var(--page-plane));
+  border: 1px solid color-mix(in srgb, var(--status-critical) 25%, transparent);
+}
+
+.estimate-explainer strong {
+  color: var(--text-primary);
+}
+
 /* Dimension tabs */
 .dimension-tabs {
   display: flex;
