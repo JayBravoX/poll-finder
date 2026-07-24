@@ -5,18 +5,17 @@ import { DimensionTabs } from './DimensionTabs';
 
 interface ResultViewProps {
   result: PollResult;
+  onBack?: () => void;
 }
 
 const BADGE_LABEL: Record<PollResult['kind'], string> = {
   real: 'Real poll data',
   live: 'Live web search result',
-  estimated: 'No real data found — estimate',
 };
 
-export function ResultView({ result }: ResultViewProps) {
+export function ResultView({ result, onBack }: ResultViewProps) {
   const { topic, kind } = result;
   const [active, setActive] = useState<DimensionKey | 'overall'>('overall');
-  const hasSource = kind === 'real' || kind === 'live';
 
   useEffect(() => {
     setActive('overall');
@@ -32,9 +31,15 @@ export function ResultView({ result }: ResultViewProps) {
 
   return (
     <div className="result">
+      {onBack && (
+        <button type="button" className="back-link" onClick={onBack}>
+          ← Back to results
+        </button>
+      )}
+
       <div className="result-header">
         <span className={`badge badge-${kind}`}>{BADGE_LABEL[kind]}</span>
-        {hasSource && <span className="result-category">{topic.category}</span>}
+        <span className="result-category">{topic.category}</span>
       </div>
 
       <h2 className="result-question">{topic.query}</h2>
@@ -42,15 +47,6 @@ export function ResultView({ result }: ResultViewProps) {
       {result.matchMethod === 'ai' && result.rawQuery.toLowerCase() !== topic.query.toLowerCase() && (
         <p className="ai-match-note">
           Interpreted “{result.rawQuery}” as the closest real poll question above.
-        </p>
-      )}
-
-      {kind === 'estimated' && (
-        <p className="estimate-explainer">
-          <strong>Why you're seeing this:</strong> no topic in Poll Finder's curated, real-poll dataset matched
-          this search closely enough to show genuine survey data. Rather than inventing numbers and presenting
-          them as if they were real, the chart below is a clearly labeled, methodology-transparent estimate.{' '}
-          {topic.source.sampleNote}
         </p>
       )}
 
@@ -64,7 +60,7 @@ export function ResultView({ result }: ResultViewProps) {
 
       <DimensionTabs available={available} active={active} onChange={setActive} />
 
-      {hasSource && activeBreakdown && (
+      {activeBreakdown && (
         <p className={`breakdown-note ${activeBreakdown.confidence === 'reported' ? 'note-reported' : 'note-modeled'}`}>
           <strong>{activeBreakdown.confidence === 'reported' ? 'Reported: ' : 'Modeled: '}</strong>
           {activeBreakdown.note ??
@@ -82,24 +78,22 @@ export function ResultView({ result }: ResultViewProps) {
         disagreeLabel={topic.disagreeLabel}
       />
 
-      {hasSource && (
-        <div className="source-card">
-          <div className="source-org">{topic.source.org}</div>
-          <div className="source-title">
-            {topic.source.url ? (
-              <a href={topic.source.url} target="_blank" rel="noreferrer">
-                {topic.source.title}
-              </a>
-            ) : (
-              topic.source.title
-            )}
-          </div>
-          <div className="source-meta">
-            {topic.source.date}
-            {topic.source.sampleNote ? ` · ${topic.source.sampleNote}` : ''}
-          </div>
+      <div className="source-card">
+        <div className="source-org">{topic.source.org}</div>
+        <div className="source-title">
+          {topic.source.url ? (
+            <a href={topic.source.url} target="_blank" rel="noreferrer">
+              {topic.source.title}
+            </a>
+          ) : (
+            topic.source.title
+          )}
         </div>
-      )}
+        <div className="source-meta">
+          {topic.source.date}
+          {topic.source.sampleNote ? ` · ${topic.source.sampleNote}` : ''}
+        </div>
+      </div>
     </div>
   );
 }

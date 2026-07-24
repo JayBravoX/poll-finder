@@ -2,15 +2,23 @@ import { useState } from 'react';
 import { SearchBar } from './components/SearchBar';
 import { SettingsPanel } from './components/SettingsPanel';
 import { ResultView } from './components/ResultView';
-import { resolveQuery } from './lib/resolve';
+import { SearchResultsList } from './components/SearchResultsList';
+import { NoResults } from './components/NoResults';
+import { resolveWithoutKeywordMatch } from './lib/resolve';
+import { listablePolls, type SearchHit } from './lib/search';
 import { getStoredApiKey, setStoredApiKey } from './lib/apiKeyStore';
 import type { PollResult } from './data/types';
 
+type View =
+  | { kind: 'idle' }
+  | { kind: 'loading'; query: string }
+  | { kind: 'list'; query: string; hits: SearchHit[] }
+  | { kind: 'detail'; result: PollResult; fromList: SearchHit[] | null }
+  | { kind: 'denied'; query: string };
+
 function App() {
   const [query, setQuery] = useState('');
-  const [result, setResult] = useState<PollResult | null>(null);
-  const [searched, setSearched] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [view, setView] = useState<View>({ kind: 'idle' });
   const [apiKey, setApiKey] = useState(getStoredApiKey);
 
   function saveApiKey(key: string) {
@@ -20,14 +28,29 @@ function App() {
 
   async function runSearch(q: string) {
     setQuery(q);
-    setSearched(true);
-    setLoading(true);
-    setResult(null);
-    try {
-      const r = await resolveQuery(q, apiKey);
-      setResult(r);
-    } finally {
-      setLoading(false);
+    const hits = listablePolls(q);
+
+    if (hits.length > 0) {
+      setView({ kind: 'list', query: q, hits });
+      return;
+    }
+
+    setView({ kind: 'loading', query: q });
+    const result = await resolveWithoutKeywordMatch(q, apiKey);
+    setView(result ? { kind: 'detail', result, fromList: null } : { kind: 'denied', query: q });
+  }
+
+  function selectHit(hit: SearchHit, fromList: SearchHit[]) {
+    setView({
+      kind: 'detail',
+      result: { kind: 'real', topic: hit.topic, rawQuery: query, matchMethod: 'keyword', matchScore: hit.score },
+      fromList,
+    });
+  }
+
+  function backToList() {
+    if (view.kind === 'detail' && view.fromList) {
+      setView({ kind: 'list', query, hits: view.fromList });
     }
   }
 
@@ -48,31 +71,35 @@ function App() {
       <main className="app-main">
         <SearchBar onSearch={runSearch} initialValue={query} />
 
-        {loading && (
+        {view.kind === 'loading' && (
           <p className="empty-state">
-            {apiKey ? 'Checking the curated dataset and searching the web…' : 'Checking the curated dataset…'}
+            {apiKey ? 'Checking for a real poll and searching the web…' : 'Checking the curated dataset…'}
           </p>
         )}
 
-        {!loading && searched && !result && (
-          <p className="empty-state">Type a topic or statement above to see the poll breakdown.</p>
+        {view.kind === 'list' && (
+          <SearchResultsList hits={view.hits} query={view.query} onSelect={(hit) => selectHit(hit, view.hits)} />
         )}
 
-        {!loading && result && <ResultView result={result} />}
+        {view.kind === 'detail' && (
+          <ResultView result={view.result} onBack={view.fromList ? backToList : undefined} />
+        )}
+
+        {view.kind === 'denied' && <NoResults query={view.query} hasApiKey={Boolean(apiKey)} />}
 
         <section className="about">
           <h2>How this works</h2>
           <p>
-            Poll Finder first checks a small curated set of real, cited public-opinion topics. When your search
-            matches one closely enough, you see genuine published figures — each chart shows exactly which
-            demographic breakdowns are directly reported by the source versus modeled/illustrative approximations.
+            Poll Finder only shows real, cited public-opinion data. Search checks a curated dataset of real,
+            sourced poll topics first — like search results, matching topics are listed so you can pick the one you
+            mean. Each chart then shows exactly which demographic breakdowns are directly reported by the source
+            versus modeled/illustrative approximations.
           </p>
           <p>
-            If nothing matches and you've added your own Anthropic API key in Settings, Poll Finder searches the
-            live web for a real, citable poll instead. If a real source is found, you see it labeled{' '}
-            <strong>live web search result</strong> with its source link. If no real data exists anywhere — in the
-            curated set or on the web — you see a clearly labeled, deterministic <strong>estimate</strong> instead
-            of a fabricated chart pretending to be real.
+            If nothing in the curated set matches and you've added your own Anthropic API key in Settings, Poll
+            Finder checks whether your search is a paraphrase of a curated topic, then searches the live web for a
+            real, citable poll. If nothing real exists anywhere — in the curated set or on the web — the search is
+            declined rather than shown as a fabricated chart.
           </p>
         </section>
       </main>

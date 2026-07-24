@@ -7,8 +7,8 @@ export interface SearchHit {
   score: number;
 }
 
-/** Below this score, a query is considered too weak a match for the curated dataset. */
-export const MATCH_THRESHOLD = 3;
+/** Below this score, a keyword match is considered too weak to list as a real result. */
+export const LIST_THRESHOLD = 3;
 
 function scoreTopic(queryNorm: string, queryTokens: string[], topic: PollTopic): number {
   let score = 0;
@@ -26,6 +26,7 @@ function scoreTopic(queryNorm: string, queryTokens: string[], topic: PollTopic):
   return score;
 }
 
+/** All curated topics that share any keyword overlap with the query, sorted by relevance. */
 export function searchPolls(query: string, topics: PollTopic[] = POLL_TOPICS): SearchHit[] {
   const queryNorm = normalize(query);
   if (!queryNorm) return [];
@@ -36,8 +37,9 @@ export function searchPolls(query: string, topics: PollTopic[] = POLL_TOPICS): S
     .sort((a, b) => b.score - a.score);
 }
 
-export function findBestMatch(query: string): SearchHit | null {
-  const hits = searchPolls(query);
-  if (hits.length === 0 || hits[0].score < MATCH_THRESHOLD) return null;
-  return hits[0];
+/** Curated hits good enough to list as real search results (like a search engine's results page). */
+export function listablePolls(query: string, topics: PollTopic[] = POLL_TOPICS): SearchHit[] {
+  return searchPolls(query, topics)
+    .filter((hit) => hit.score >= LIST_THRESHOLD)
+    .slice(0, 8);
 }

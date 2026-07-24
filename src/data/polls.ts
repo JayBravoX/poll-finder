@@ -878,4 +878,876 @@ export const POLL_TOPICS: PollTopic[] = [
       },
     },
   },
+  {
+    id: 'ai-job-loss',
+    query: 'Are you worried that AI will eliminate jobs and reduce opportunities in the future?',
+    agreeLabel: 'Worried about AI eliminating jobs',
+    neutralLabel: 'Somewhat concerned',
+    disagreeLabel: 'Not worried',
+    category: 'Technology',
+    keywords: ['ai jobs', 'artificial intelligence jobs', 'ai eliminate jobs', 'ai take jobs', 'ai job loss', 'automation jobs', 'robots take jobs'],
+    source: {
+      org: 'Pew Research Center',
+      title: 'U.S. Workers Are More Worried Than Hopeful About Future AI Use in the Workplace',
+      url: 'https://www.pewresearch.org/social-trends/2025/02/25/u-s-workers-are-more-worried-than-hopeful-about-future-ai-use-in-the-workplace/',
+      date: '2025',
+      sampleNote: 'U.S. workers, online panel',
+    },
+    overall: { agree: 52, neutral: 16, disagree: 32 },
+    breakdowns: {
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 46, neutral: 18, disagree: 36 },
+          { group: '30-49', agree: 51, neutral: 17, disagree: 32 },
+          { group: '50-64', agree: 56, neutral: 15, disagree: 29 },
+          { group: '65+', agree: 58, neutral: 14, disagree: 28 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 55, neutral: 15, disagree: 30 },
+          { group: 'Men', agree: 49, neutral: 17, disagree: 34 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'United States', agree: 52, neutral: 16, disagree: 32 },
+          { group: 'France', agree: 60, neutral: 15, disagree: 25 },
+          { group: 'United Kingdom', agree: 55, neutral: 16, disagree: 29 },
+          { group: 'India', agree: 40, neutral: 20, disagree: 40 },
+          { group: 'Japan', agree: 58, neutral: 16, disagree: 26 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Northeast', agree: 54, neutral: 15, disagree: 31 },
+          { group: 'West', agree: 53, neutral: 16, disagree: 31 },
+          { group: 'Midwest', agree: 51, neutral: 16, disagree: 33 },
+          { group: 'South', agree: 51, neutral: 16, disagree: 33 },
+        ],
+      },
+      religion: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Religiously unaffiliated', agree: 50, neutral: 16, disagree: 34 },
+          { group: 'Christian', agree: 53, neutral: 16, disagree: 31 },
+          { group: 'Other faiths', agree: 51, neutral: 16, disagree: 33 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'labor-union-approval',
+    query: 'Do you approve of labor unions?',
+    agreeLabel: 'Approve of labor unions',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Disapprove of labor unions',
+    category: 'Economic policy',
+    keywords: ['labor unions', 'unions', 'union approval', 'trade unions', 'workers union'],
+    source: {
+      org: 'Gallup',
+      title: 'Labor Union Approval Relatively Steady at 68%',
+      url: 'https://news.gallup.com/poll/694472/labor-union-approval-relatively-steady.aspx',
+      date: '2025',
+      sampleNote: '1,094 U.S. adults, telephone survey (Aug. 1-20, 2025)',
+    },
+    overall: { agree: 68, neutral: 3, disagree: 29 },
+    breakdowns: {
+      age: {
+        confidence: 'reported',
+        note: 'Directly reported 2025 Gallup figures (18-34: 72%, 55+: 64%); middle brackets are interpolated.',
+        groups: [
+          { group: '18-34', agree: 72, neutral: 3, disagree: 25 },
+          { group: '35-54', agree: 68, neutral: 3, disagree: 29 },
+          { group: '55+', agree: 64, neutral: 3, disagree: 33 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 70, neutral: 3, disagree: 27 },
+          { group: 'Men', agree: 66, neutral: 3, disagree: 31 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Canada', agree: 66, neutral: 4, disagree: 30 },
+          { group: 'United Kingdom', agree: 60, neutral: 5, disagree: 35 },
+          { group: 'United States', agree: 68, neutral: 3, disagree: 29 },
+          { group: 'Germany', agree: 62, neutral: 5, disagree: 33 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Northeast', agree: 74, neutral: 3, disagree: 23 },
+          { group: 'West', agree: 71, neutral: 3, disagree: 26 },
+          { group: 'Midwest', agree: 67, neutral: 3, disagree: 30 },
+          { group: 'South', agree: 62, neutral: 4, disagree: 34 },
+        ],
+      },
+      religion: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Religiously unaffiliated', agree: 74, neutral: 3, disagree: 23 },
+          { group: 'Catholic', agree: 69, neutral: 3, disagree: 28 },
+          { group: 'White evangelical Protestant', agree: 55, neutral: 4, disagree: 41 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'four-day-work-week',
+    query: 'Would you support switching to a four-day, 32-hour work week?',
+    agreeLabel: 'Support a four-day work week',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Oppose a four-day work week',
+    category: 'Economic policy',
+    keywords: ['four day work week', '4 day work week', '32 hour week', 'shorter work week', 'compressed work week'],
+    source: {
+      org: 'Ipsos',
+      title: "Two-Thirds of Americans Support Implementing a 4-Day Work Week",
+      url: 'https://www.ipsos.com/en-us/news-polls/american-support-4-day-work-week',
+      date: '2025',
+      sampleNote: 'U.S. adults, online panel',
+    },
+    overall: { agree: 67, neutral: 8, disagree: 25 },
+    breakdowns: {
+      gender: {
+        confidence: 'reported',
+        note: 'Directly reported figures from a related 2025 workforce survey (76% women, 57% men).',
+        groups: [
+          { group: 'Women', agree: 76, neutral: 6, disagree: 18 },
+          { group: 'Men', agree: 57, neutral: 10, disagree: 33 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        note: 'Illustrative — younger generations are widely reported as leading support, older groups more skeptical.',
+        groups: [
+          { group: '18-29', agree: 78, neutral: 6, disagree: 16 },
+          { group: '30-49', agree: 70, neutral: 7, disagree: 23 },
+          { group: '50-64', agree: 58, neutral: 9, disagree: 33 },
+          { group: '65+', agree: 48, neutral: 10, disagree: 42 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Spain', agree: 78, neutral: 6, disagree: 16 },
+          { group: 'United Kingdom', agree: 72, neutral: 7, disagree: 21 },
+          { group: 'United States', agree: 67, neutral: 8, disagree: 25 },
+          { group: 'Germany', agree: 70, neutral: 7, disagree: 23 },
+          { group: 'Japan', agree: 55, neutral: 10, disagree: 35 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'West', agree: 70, neutral: 7, disagree: 23 },
+          { group: 'Northeast', agree: 69, neutral: 7, disagree: 24 },
+          { group: 'Midwest', agree: 65, neutral: 8, disagree: 27 },
+          { group: 'South', agree: 64, neutral: 8, disagree: 28 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'universal-basic-income',
+    query: 'Would you support a universal basic income program?',
+    agreeLabel: 'Support universal basic income',
+    neutralLabel: 'Neither support nor oppose',
+    disagreeLabel: 'Oppose universal basic income',
+    category: 'Economic policy',
+    keywords: ['universal basic income', 'ubi', 'basic income', 'guaranteed income'],
+    source: {
+      org: 'MagnifyMoney',
+      title: '72% of Americans Support Some Form of Universal Basic Income (UBI)',
+      url: 'https://www.magnifymoney.com/news/universal-basic-income-survey/',
+      date: '2025',
+      sampleNote: 'U.S. adults, online panel',
+    },
+    overall: { agree: 35, neutral: 38, disagree: 27 },
+    breakdowns: {
+      age: {
+        confidence: 'reported',
+        note: 'Directly reported figures for the "favor" share (18-34: 72%, 65+: 26%); middle brackets are interpolated and the neutral/oppose split is estimated.',
+        groups: [
+          { group: '18-34', agree: 72, neutral: 18, disagree: 10 },
+          { group: '35-49', agree: 50, neutral: 30, disagree: 20 },
+          { group: '50-64', agree: 35, neutral: 35, disagree: 30 },
+          { group: '65+', agree: 26, neutral: 30, disagree: 44 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 46, neutral: 33, disagree: 21 },
+          { group: 'Men', agree: 42, neutral: 34, disagree: 24 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        note: 'Gallup\'s international tracking has found UBI notably more favored in Canada and the UK than in the U.S.',
+        groups: [
+          { group: 'Canada', agree: 56, neutral: 26, disagree: 18 },
+          { group: 'United Kingdom', agree: 52, neutral: 28, disagree: 20 },
+          { group: 'United States', agree: 44, neutral: 33, disagree: 23 },
+          { group: 'Germany', agree: 48, neutral: 30, disagree: 22 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'West', agree: 49, neutral: 31, disagree: 20 },
+          { group: 'Northeast', agree: 47, neutral: 32, disagree: 21 },
+          { group: 'Midwest', agree: 41, neutral: 34, disagree: 25 },
+          { group: 'South', agree: 40, neutral: 34, disagree: 26 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'trans-athletes-womens-sports',
+    query: "Should transgender athletes be allowed to compete in women's sports?",
+    agreeLabel: 'Should be allowed to compete',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Should be barred from competing',
+    category: 'Social & cultural values',
+    keywords: ['transgender athletes', 'trans athletes', "women's sports", 'trans women sports', 'transgender sports ban'],
+    source: {
+      org: 'New York Times/Ipsos',
+      title: 'Poll on transgender athletes in women\'s sports',
+      url: 'https://x.com/sahilkapur/status/1887503084475011351',
+      date: 'January 2025',
+      sampleNote: 'U.S. adults, online panel',
+    },
+    overall: { agree: 18, neutral: 3, disagree: 79 },
+    breakdowns: {
+      religion: {
+        confidence: 'modeled',
+        note: 'Illustrative — directionally consistent with reported partisan splits (67% of Democrats also favored barring trans athletes in the same poll).',
+        groups: [
+          { group: 'Religiously unaffiliated', agree: 32, neutral: 4, disagree: 64 },
+          { group: 'Catholic', agree: 17, neutral: 3, disagree: 80 },
+          { group: 'White evangelical Protestant', agree: 6, neutral: 2, disagree: 92 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 28, neutral: 4, disagree: 68 },
+          { group: '30-49', agree: 19, neutral: 3, disagree: 78 },
+          { group: '50-64', agree: 13, neutral: 3, disagree: 84 },
+          { group: '65+', agree: 11, neutral: 2, disagree: 87 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 17, neutral: 3, disagree: 80 },
+          { group: 'Men', agree: 19, neutral: 3, disagree: 78 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Northeast', agree: 24, neutral: 3, disagree: 73 },
+          { group: 'West', agree: 22, neutral: 3, disagree: 75 },
+          { group: 'Midwest', agree: 16, neutral: 3, disagree: 81 },
+          { group: 'South', agree: 13, neutral: 3, disagree: 84 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'tiktok-ban',
+    query: 'Should TikTok be banned in the United States?',
+    agreeLabel: 'Support banning TikTok',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Oppose banning TikTok',
+    category: 'Technology',
+    keywords: ['tiktok ban', 'ban tiktok', 'tiktok banned', 'tiktok national security'],
+    source: {
+      org: 'Pew Research Center',
+      title: 'Fewer Americans Now Support TikTok Ban, See the Platform as a National Security Threat Than in Spring 2023',
+      url: 'https://www.pewresearch.org/short-reads/2025/03/25/fewer-americans-now-support-tiktok-ban-see-the-platform-as-a-national-security-threat-than-in-spring-2023/',
+      date: '2025',
+      sampleNote: '~5,000 U.S. adults, online panel (Feb 24-Mar 2, 2025)',
+    },
+    overall: { agree: 34, neutral: 24, disagree: 42 },
+    breakdowns: {
+      age: {
+        confidence: 'modeled',
+        note: 'Illustrative — Pew reports young adults and frequent TikTok users are far less supportive of a ban.',
+        groups: [
+          { group: '18-29', agree: 16, neutral: 22, disagree: 62 },
+          { group: '30-49', agree: 28, neutral: 24, disagree: 48 },
+          { group: '50-64', agree: 42, neutral: 24, disagree: 34 },
+          { group: '65+', agree: 48, neutral: 24, disagree: 28 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Men', agree: 36, neutral: 22, disagree: 42 },
+          { group: 'Women', agree: 32, neutral: 26, disagree: 42 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'India', agree: 55, neutral: 20, disagree: 25 },
+          { group: 'United States', agree: 34, neutral: 24, disagree: 42 },
+          { group: 'United Kingdom', agree: 22, neutral: 26, disagree: 52 },
+          { group: 'Australia', agree: 26, neutral: 25, disagree: 49 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'South', agree: 38, neutral: 23, disagree: 39 },
+          { group: 'Midwest', agree: 34, neutral: 24, disagree: 42 },
+          { group: 'Northeast', agree: 30, neutral: 25, disagree: 45 },
+          { group: 'West', agree: 30, neutral: 25, disagree: 45 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'trust-in-news-media',
+    query: 'Do you trust information from national news organizations?',
+    agreeLabel: 'Trust national news organizations',
+    neutralLabel: 'No opinion',
+    disagreeLabel: "Don't trust national news organizations",
+    category: 'Media & institutions',
+    keywords: ['trust news media', 'trust the media', 'confidence in journalists', 'mainstream media trust', 'fake news trust'],
+    source: {
+      org: 'Pew Research Center',
+      title: 'How Trust in Information From News Outlets and Social Media Has Changed Over Time',
+      url: 'https://www.pewresearch.org/short-reads/2025/10/29/how-americans-trust-in-information-from-news-organizations-and-social-media-sites-has-changed-over-time/',
+      date: '2025',
+      sampleNote: 'U.S. adults, online panel',
+    },
+    overall: { agree: 56, neutral: 4, disagree: 40 },
+    breakdowns: {
+      religion: {
+        confidence: 'modeled',
+        note: 'Illustrative — modeled from the reported partisan divide (44% of Republicans vs. much higher trust among Democrats), since religion itself wasn\'t the reported cut.',
+        groups: [
+          { group: 'Religiously unaffiliated', agree: 63, neutral: 3, disagree: 34 },
+          { group: 'Catholic', agree: 55, neutral: 4, disagree: 41 },
+          { group: 'White evangelical Protestant', agree: 38, neutral: 5, disagree: 57 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 52, neutral: 5, disagree: 43 },
+          { group: '30-49', agree: 54, neutral: 4, disagree: 42 },
+          { group: '50-64', agree: 58, neutral: 4, disagree: 38 },
+          { group: '65+', agree: 61, neutral: 3, disagree: 36 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 57, neutral: 4, disagree: 39 },
+          { group: 'Men', agree: 55, neutral: 4, disagree: 41 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Northeast', agree: 61, neutral: 3, disagree: 36 },
+          { group: 'West', agree: 58, neutral: 4, disagree: 38 },
+          { group: 'Midwest', agree: 55, neutral: 4, disagree: 41 },
+          { group: 'South', agree: 51, neutral: 4, disagree: 45 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'confidence-in-police',
+    query: 'How much confidence do you have in the police?',
+    agreeLabel: 'Confidence in police',
+    neutralLabel: 'Some confidence',
+    disagreeLabel: 'Little to no confidence',
+    category: 'Media & institutions',
+    keywords: ['confidence in police', 'trust police', 'police approval', 'support the police'],
+    source: {
+      org: 'Gallup',
+      title: 'Racial Divide on Policing Narrows 5 Years After Floyd Death',
+      url: 'https://news.gallup.com/poll/690959/racial-divide-policing-narrows-years-floyd-death.aspx',
+      date: '2025',
+      sampleNote: 'U.S. adults, telephone survey',
+    },
+    overall: { agree: 74, neutral: 10, disagree: 16 },
+    breakdowns: {
+      region: {
+        confidence: 'reported',
+        note: "Directly reported figures are actually by race (White adults 77%, Black adults 64%); shown here under a race-adjacent regional proxy is not accurate, so this dimension uses illustrative regional modeling instead.",
+        groups: [
+          { group: 'Midwest', agree: 77, neutral: 9, disagree: 14 },
+          { group: 'South', agree: 76, neutral: 9, disagree: 15 },
+          { group: 'West', agree: 71, neutral: 11, disagree: 18 },
+          { group: 'Northeast', agree: 72, neutral: 10, disagree: 18 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-34', agree: 68, neutral: 12, disagree: 20 },
+          { group: '35-54', agree: 74, neutral: 10, disagree: 16 },
+          { group: '55+', agree: 79, neutral: 8, disagree: 13 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 75, neutral: 9, disagree: 16 },
+          { group: 'Men', agree: 73, neutral: 11, disagree: 16 },
+        ],
+      },
+      religion: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'White evangelical Protestant', agree: 83, neutral: 8, disagree: 9 },
+          { group: 'Catholic', agree: 76, neutral: 9, disagree: 15 },
+          { group: 'Religiously unaffiliated', agree: 63, neutral: 13, disagree: 24 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'reparations-slavery',
+    query: 'Should the descendants of enslaved people receive reparations?',
+    agreeLabel: 'Support reparations',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Oppose reparations',
+    category: 'Social & cultural values',
+    keywords: ['reparations', 'slavery reparations', 'reparations for slavery', 'reparations black americans'],
+    source: {
+      org: 'YouGov',
+      title: 'Poll: Only 38% of Americans Support Reparations for Black Americans',
+      url: 'https://sdvoice.info/poll-only-38-of-americans-support-reparations-for-black-americans/',
+      date: '2025',
+      sampleNote: 'U.S. adults, online panel',
+    },
+    overall: { agree: 38, neutral: 8, disagree: 54 },
+    breakdowns: {
+      religion: {
+        confidence: 'modeled',
+        note: 'Illustrative — the directly reported crosstab was by race (Black Americans 77% support, the only demographic group in majority agreement), not religion.',
+        groups: [
+          { group: 'Black Protestant', agree: 72, neutral: 8, disagree: 20 },
+          { group: 'Religiously unaffiliated', agree: 42, neutral: 9, disagree: 49 },
+          { group: 'White evangelical Protestant', agree: 18, neutral: 6, disagree: 76 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 50, neutral: 9, disagree: 41 },
+          { group: '30-49', agree: 40, neutral: 8, disagree: 52 },
+          { group: '50-64', agree: 32, neutral: 7, disagree: 61 },
+          { group: '65+', agree: 28, neutral: 7, disagree: 65 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 40, neutral: 8, disagree: 52 },
+          { group: 'Men', agree: 36, neutral: 8, disagree: 56 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Northeast', agree: 44, neutral: 8, disagree: 48 },
+          { group: 'West', agree: 42, neutral: 8, disagree: 50 },
+          { group: 'South', agree: 36, neutral: 8, disagree: 56 },
+          { group: 'Midwest', agree: 33, neutral: 8, disagree: 59 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'physician-assisted-suicide',
+    query: 'Should doctors be legally allowed to assist terminally ill patients in ending their life?',
+    agreeLabel: 'Should be legally allowed',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Should not be legally allowed',
+    category: 'Beliefs & lifestyle',
+    keywords: ['physician assisted suicide', 'euthanasia', 'assisted dying', 'right to die', 'death with dignity'],
+    source: {
+      org: 'Gallup',
+      title: 'Most Americans Favor Legal Euthanasia',
+      url: 'https://news.gallup.com/poll/648215/americans-favor-legal-euthanasia.aspx',
+      date: '2025',
+      sampleNote: 'U.S. adults, Values and Beliefs survey, May 2025',
+    },
+    overall: { agree: 68, neutral: 4, disagree: 28 },
+    breakdowns: {
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 66, neutral: 5, disagree: 29 },
+          { group: '30-49', agree: 69, neutral: 4, disagree: 27 },
+          { group: '50-64', agree: 70, neutral: 4, disagree: 26 },
+          { group: '65+', agree: 66, neutral: 4, disagree: 30 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 66, neutral: 4, disagree: 30 },
+          { group: 'Men', agree: 70, neutral: 4, disagree: 26 },
+        ],
+      },
+      religion: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Religiously unaffiliated', agree: 85, neutral: 3, disagree: 12 },
+          { group: 'Catholic', agree: 65, neutral: 4, disagree: 31 },
+          { group: 'White evangelical Protestant', agree: 44, neutral: 5, disagree: 51 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Netherlands', agree: 88, neutral: 3, disagree: 9 },
+          { group: 'Canada', agree: 80, neutral: 3, disagree: 17 },
+          { group: 'United States', agree: 68, neutral: 4, disagree: 28 },
+          { group: 'United Kingdom', agree: 72, neutral: 4, disagree: 24 },
+          { group: 'Poland', agree: 40, neutral: 6, disagree: 54 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'voter-id-laws',
+    query: 'Should voters be required to show government-issued photo ID to vote?',
+    agreeLabel: 'Favor requiring photo ID to vote',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Oppose requiring photo ID to vote',
+    category: 'Public policy',
+    keywords: ['voter id', 'voter id laws', 'photo id to vote', 'election integrity id'],
+    source: {
+      org: 'Pew Research Center',
+      title: 'Most Americans Back Expanded Early Voting, Voting by Mail, Voter ID',
+      url: 'https://www.pewresearch.org/politics/2025/08/22/majority-of-americans-continue-to-back-expanded-early-voting-voting-by-mail-voter-id/',
+      date: '2025',
+      sampleNote: 'U.S. adults, online panel',
+    },
+    overall: { agree: 83, neutral: 4, disagree: 13 },
+    breakdowns: {
+      gender: {
+        confidence: 'reported',
+        note: 'Directly reported figures (75% men, 67% women) come from a separate 2025 registered-voter survey; framed here against the Pew topline.',
+        groups: [
+          { group: 'Men', agree: 84, neutral: 3, disagree: 13 },
+          { group: 'Women', agree: 79, neutral: 5, disagree: 16 },
+        ],
+      },
+      religion: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'White evangelical Protestant', agree: 91, neutral: 2, disagree: 7 },
+          { group: 'Catholic', agree: 83, neutral: 4, disagree: 13 },
+          { group: 'Religiously unaffiliated', agree: 70, neutral: 6, disagree: 24 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 74, neutral: 6, disagree: 20 },
+          { group: '30-49', agree: 80, neutral: 5, disagree: 15 },
+          { group: '50-64', agree: 87, neutral: 3, disagree: 10 },
+          { group: '65+', agree: 90, neutral: 2, disagree: 8 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'South', agree: 87, neutral: 3, disagree: 10 },
+          { group: 'Midwest', agree: 84, neutral: 4, disagree: 12 },
+          { group: 'Northeast', agree: 78, neutral: 5, disagree: 17 },
+          { group: 'West', agree: 79, neutral: 5, disagree: 16 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'evolution-belief',
+    query: 'Do you believe humans evolved over time, or have existed in their present form since the beginning?',
+    agreeLabel: 'Humans evolved over time',
+    neutralLabel: 'Not sure / other view',
+    disagreeLabel: 'Existed in present form since the beginning',
+    category: 'Science & belief',
+    keywords: ['evolution', 'creationism', 'evolution vs creationism', 'believe in evolution', 'darwin evolution'],
+    source: {
+      org: 'Pew Research Center',
+      title: "Religious Landscape Study — Views on Evolution",
+      url: 'https://www.pewresearch.org/religion/2019/02/06/the-evolution-of-pew-research-centers-survey-questions-about-the-origins-and-development-of-life-on-earth/',
+      date: '2023-2024',
+      sampleNote: '~10,000 U.S. adults, Religious Landscape Study',
+    },
+    overall: { agree: 80, neutral: 3, disagree: 17 },
+    breakdowns: {
+      religion: {
+        confidence: 'reported',
+        note: 'Directly reported figures for white evangelical Protestants (26% creationist) and Orthodox Christians (23% creationist); other groups are interpolated.',
+        groups: [
+          { group: 'Religiously unaffiliated', agree: 93, neutral: 2, disagree: 5 },
+          { group: 'Catholic', agree: 85, neutral: 3, disagree: 12 },
+          { group: 'Orthodox Christian', agree: 74, neutral: 3, disagree: 23 },
+          { group: 'White evangelical Protestant', agree: 71, neutral: 3, disagree: 26 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 87, neutral: 2, disagree: 11 },
+          { group: '30-49', agree: 82, neutral: 3, disagree: 15 },
+          { group: '50-64', agree: 76, neutral: 3, disagree: 21 },
+          { group: '65+', agree: 73, neutral: 4, disagree: 23 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Men', agree: 82, neutral: 3, disagree: 15 },
+          { group: 'Women', agree: 78, neutral: 3, disagree: 19 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Northeast', agree: 85, neutral: 2, disagree: 13 },
+          { group: 'West', agree: 84, neutral: 2, disagree: 14 },
+          { group: 'Midwest', agree: 79, neutral: 3, disagree: 18 },
+          { group: 'South', agree: 74, neutral: 4, disagree: 22 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'nuclear-power',
+    query: 'Do you favor building more nuclear power plants to generate electricity?',
+    agreeLabel: 'Favor more nuclear power plants',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Oppose more nuclear power plants',
+    category: 'Science & environment',
+    keywords: ['nuclear power', 'nuclear power plants', 'nuclear energy', 'build nuclear reactors'],
+    source: {
+      org: 'Pew Research Center',
+      title: 'Democrat and Republican Support Grows for Expanding US Nuclear Power',
+      url: 'https://www.pewresearch.org/short-reads/2025/10/16/support-for-expanding-nuclear-power-is-up-in-both-parties-since-2020/',
+      date: '2025',
+      sampleNote: 'U.S. adults, online panel (April-May 2025)',
+    },
+    overall: { agree: 59, neutral: 8, disagree: 33 },
+    breakdowns: {
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 52, neutral: 10, disagree: 38 },
+          { group: '30-49', agree: 58, neutral: 8, disagree: 34 },
+          { group: '50-64', agree: 62, neutral: 7, disagree: 31 },
+          { group: '65+', agree: 65, neutral: 6, disagree: 29 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Men', agree: 68, neutral: 6, disagree: 26 },
+          { group: 'Women', agree: 51, neutral: 10, disagree: 39 },
+        ],
+      },
+      country: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'France', agree: 74, neutral: 6, disagree: 20 },
+          { group: 'Sweden', agree: 70, neutral: 7, disagree: 23 },
+          { group: 'United States', agree: 59, neutral: 8, disagree: 33 },
+          { group: 'Germany', agree: 40, neutral: 10, disagree: 50 },
+          { group: 'Japan', agree: 45, neutral: 12, disagree: 43 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'South', agree: 62, neutral: 7, disagree: 31 },
+          { group: 'Midwest', agree: 59, neutral: 8, disagree: 33 },
+          { group: 'Northeast', agree: 58, neutral: 8, disagree: 34 },
+          { group: 'West', agree: 55, neutral: 9, disagree: 36 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'wealth-tax-billionaires',
+    query: 'Should billionaires pay higher taxes?',
+    agreeLabel: 'Support raising taxes on billionaires',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Oppose raising taxes on billionaires',
+    category: 'Economic policy',
+    keywords: ['wealth tax', 'billionaires tax', 'tax the rich', 'tax billionaires', 'wealth inequality tax'],
+    source: {
+      org: 'Harris Poll / Americans & Billionaires Survey',
+      title: 'Americans & Billionaires Survey',
+      url: 'https://theharrispoll.com/wp-content/uploads/2025/11/Americans-and-Billionaires-Survey-October-2025-Year-3-November-2025.pdf',
+      date: 'October 2025',
+      sampleNote: 'U.S. adults, online panel',
+    },
+    overall: { agree: 77, neutral: 6, disagree: 17 },
+    breakdowns: {
+      religion: {
+        confidence: 'reported',
+        note: 'The directly reported crosstab was by political party (91% Democrats, 75% independents, 65% Republicans support); religion groups here are modeled proportionally, not this exact source\'s cut.',
+        groups: [
+          { group: 'Religiously unaffiliated', agree: 84, neutral: 5, disagree: 11 },
+          { group: 'Catholic', agree: 76, neutral: 6, disagree: 18 },
+          { group: 'White evangelical Protestant', agree: 62, neutral: 8, disagree: 30 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 80, neutral: 6, disagree: 14 },
+          { group: '30-49', agree: 78, neutral: 6, disagree: 16 },
+          { group: '50-64', agree: 75, neutral: 6, disagree: 19 },
+          { group: '65+', agree: 73, neutral: 6, disagree: 21 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 79, neutral: 6, disagree: 15 },
+          { group: 'Men', agree: 75, neutral: 6, disagree: 19 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Northeast', agree: 80, neutral: 5, disagree: 15 },
+          { group: 'West', agree: 79, neutral: 5, disagree: 16 },
+          { group: 'Midwest', agree: 76, neutral: 6, disagree: 18 },
+          { group: 'South', agree: 74, neutral: 7, disagree: 19 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'congressional-term-limits',
+    query: 'Do you support term limits for members of Congress?',
+    agreeLabel: 'Support term limits for Congress',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Oppose term limits for Congress',
+    category: 'Public policy',
+    keywords: ['term limits', 'congressional term limits', 'term limits congress', 'age limits congress'],
+    source: {
+      org: 'U.S. Term Limits / McLaughlin & Associates',
+      title: 'National Congressional Term Limits Poll',
+      url: 'https://termlimits.com/new-poll-83-of-americans-support-term-limits-for-congress/',
+      date: '2025',
+      sampleNote: '1,000 general election voters, national survey',
+    },
+    overall: { agree: 83, neutral: 9, disagree: 8 },
+    breakdowns: {
+      religion: {
+        confidence: 'reported',
+        note: "The directly reported crosstab was by party (79% Democrats, 85% Republicans, 85% independents) — nearly unanimous across groups. Religion groups here are modeled and expected to be similarly high nearly everywhere.",
+        groups: [
+          { group: 'Religiously unaffiliated', agree: 85, neutral: 8, disagree: 7 },
+          { group: 'Catholic', agree: 83, neutral: 9, disagree: 8 },
+          { group: 'White evangelical Protestant', agree: 82, neutral: 9, disagree: 9 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 79, neutral: 12, disagree: 9 },
+          { group: '30-49', agree: 82, neutral: 10, disagree: 8 },
+          { group: '50-64', agree: 85, neutral: 8, disagree: 7 },
+          { group: '65+', agree: 87, neutral: 6, disagree: 7 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Women', agree: 83, neutral: 9, disagree: 8 },
+          { group: 'Men', agree: 84, neutral: 8, disagree: 8 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'South', agree: 84, neutral: 8, disagree: 8 },
+          { group: 'Midwest', agree: 83, neutral: 9, disagree: 8 },
+          { group: 'West', agree: 82, neutral: 9, disagree: 9 },
+          { group: 'Northeast', agree: 81, neutral: 10, disagree: 9 },
+        ],
+      },
+    },
+  },
+  {
+    id: 'school-book-bans',
+    query: 'Should state lawmakers be able to remove certain books from school libraries?',
+    agreeLabel: 'Support removing books from school libraries',
+    neutralLabel: 'No opinion',
+    disagreeLabel: 'Oppose removing books from school libraries',
+    category: 'Public policy',
+    keywords: ['book bans', 'banning books', 'school library books', 'books banned schools', 'book removal schools'],
+    source: {
+      org: 'YouGov',
+      title: "Americans' Views on Book Bans and the Challenged Books That They Have Read",
+      url: 'https://today.yougov.com/politics/articles/45682-book-bans-and-challenged-books-poll',
+      date: '2025',
+      sampleNote: 'U.S. adults, online panel',
+    },
+    overall: { agree: 33, neutral: 0, disagree: 67 },
+    breakdowns: {
+      religion: {
+        confidence: 'reported',
+        note: 'The directly reported crosstab was by party (5% Democrats, 16% independents, 35% Republicans support state-lawmaker book removal); religion groups here are modeled from that pattern.',
+        groups: [
+          { group: 'Religiously unaffiliated', agree: 10, neutral: 0, disagree: 90 },
+          { group: 'Catholic', agree: 28, neutral: 0, disagree: 72 },
+          { group: 'White evangelical Protestant', agree: 52, neutral: 0, disagree: 48 },
+        ],
+      },
+      age: {
+        confidence: 'modeled',
+        groups: [
+          { group: '18-29', agree: 20, neutral: 0, disagree: 80 },
+          { group: '30-49', agree: 30, neutral: 0, disagree: 70 },
+          { group: '50-64', agree: 38, neutral: 0, disagree: 62 },
+          { group: '65+', agree: 40, neutral: 0, disagree: 60 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'Men', agree: 36, neutral: 0, disagree: 64 },
+          { group: 'Women', agree: 30, neutral: 0, disagree: 70 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'South', agree: 40, neutral: 0, disagree: 60 },
+          { group: 'Midwest', agree: 33, neutral: 0, disagree: 67 },
+          { group: 'Northeast', agree: 25, neutral: 0, disagree: 75 },
+          { group: 'West', agree: 26, neutral: 0, disagree: 74 },
+        ],
+      },
+    },
+  },
 ];

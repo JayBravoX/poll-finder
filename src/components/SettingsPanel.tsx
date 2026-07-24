@@ -29,9 +29,10 @@ export function SettingsPanel({ apiKey, onSave }: SettingsPanelProps) {
           <h3>Anthropic API key</h3>
           <p>
             Optional. When set, any search that doesn't match the curated real-poll dataset is sent directly from
-            your browser to Claude with live web search enabled, to try to find a real, cited poll instead of a
-            simulated estimate. Your key is stored only in this browser's local storage and sent only to Anthropic's
-            API — never to any Poll Finder server (this app has none). Usage is billed to your own Anthropic account.
+            your browser to Claude with live web search enabled, to try to find a real, cited poll that isn't in
+            the curated dataset yet. Without a key, a search with no real match is simply declined. Your key is
+            stored only in this browser's local storage and sent only to Anthropic's API — never to any Poll Finder
+            server (this app has none). Usage is billed to your own Anthropic account.
           </p>
           <input
             type="password"
