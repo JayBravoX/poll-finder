@@ -21,16 +21,27 @@ gender, country, region, and religion**.
 2. **Search matching.** `src/lib/search.ts` scores your query against each
    curated topic's keywords and picks the best match above a threshold.
 
-3. **AI-simulated fallback.** If nothing in the curated set matches closely
-   enough, `src/lib/estimate.ts` generates a clearly labeled **AI-simulated
-   estimate** instead of pretending a real poll exists. This isn't a random
-   number: it's anchored to the closest related topics already in the
-   curated dataset (weighted by keyword relevance), so it starts from a real,
-   comparable base rate rather than pure noise — and if literally nothing
-   in the dataset relates to the search, it falls back to a neutral,
-   explicitly-labeled baseline instead of guessing. Same query → same
-   numbers, but it is still not real survey data, and the app tells you
-   exactly why you're seeing an estimate and what it's anchored to.
+3. **Optional live web search.** In Settings, you can paste your own
+   Anthropic API key (`src/components/SettingsPanel.tsx`). It's stored only
+   in your browser's local storage and used only for direct browser → 
+   Anthropic API calls (`src/lib/liveSearch.ts`) — never sent anywhere else,
+   since this app has no backend. When a key is set and nothing in the
+   curated dataset matches, Poll Finder asks Claude (with the `web_search`
+   server tool) to try to find a real, citable poll for the query. It only
+   returns a result if it found a genuine source with a real URL — it will
+   not fabricate one. Only demographic breakdowns the source itself reports
+   are shown; nothing is modeled or estimated for a live result.
+
+4. **Honest fallback.** If there's no API key, or the live search finds
+   nothing real either, `src/lib/estimate.ts` generates a clearly labeled
+   **estimate** instead of pretending a real poll exists. This isn't a
+   random number: it's anchored to the closest related topics already in
+   the curated dataset (weighted by keyword relevance), so it starts from a
+   real, comparable base rate rather than pure noise — and if nothing in
+   the dataset relates to the search either, it falls back to a neutral,
+   explicitly-labeled baseline. Same query → same numbers, but it is still
+   not real survey data, and the app always says exactly why you're seeing
+   an estimate.
 
 ## Development
 

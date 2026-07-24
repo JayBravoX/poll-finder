@@ -7,9 +7,16 @@ interface ResultViewProps {
   result: PollResult;
 }
 
+const BADGE_LABEL: Record<PollResult['kind'], string> = {
+  real: 'Real poll data',
+  live: 'Live web search result',
+  estimated: 'No real data found — estimate',
+};
+
 export function ResultView({ result }: ResultViewProps) {
   const { topic, kind } = result;
   const [active, setActive] = useState<DimensionKey | 'overall'>('overall');
+  const hasSource = kind === 'real' || kind === 'live';
 
   useEffect(() => {
     setActive('overall');
@@ -26,10 +33,8 @@ export function ResultView({ result }: ResultViewProps) {
   return (
     <div className="result">
       <div className="result-header">
-        <span className={`badge ${kind === 'real' ? 'badge-real' : 'badge-estimated'}`}>
-          {kind === 'real' ? 'Real poll data' : 'AI-simulated estimate'}
-        </span>
-        {kind === 'real' && <span className="result-category">{topic.category}</span>}
+        <span className={`badge badge-${kind}`}>{BADGE_LABEL[kind]}</span>
+        {hasSource && <span className="result-category">{topic.category}</span>}
       </div>
 
       <h2 className="result-question">{topic.query}</h2>
@@ -43,9 +48,17 @@ export function ResultView({ result }: ResultViewProps) {
         </p>
       )}
 
+      {kind === 'live' && (
+        <p className="live-explainer">
+          <strong>Found via live web search:</strong> no topic in the curated dataset matched this search, so
+          Claude searched the web (using your Anthropic API key) and found the real source cited below. Only
+          demographic breakdowns that source itself reports are shown.
+        </p>
+      )}
+
       <DimensionTabs available={available} active={active} onChange={setActive} />
 
-      {kind === 'real' && activeBreakdown && (
+      {hasSource && activeBreakdown && (
         <p className={`breakdown-note ${activeBreakdown.confidence === 'reported' ? 'note-reported' : 'note-modeled'}`}>
           <strong>{activeBreakdown.confidence === 'reported' ? 'Reported: ' : 'Modeled: '}</strong>
           {activeBreakdown.note ??
@@ -63,7 +76,7 @@ export function ResultView({ result }: ResultViewProps) {
         disagreeLabel={topic.disagreeLabel}
       />
 
-      {kind === 'real' && (
+      {hasSource && (
         <div className="source-card">
           <div className="source-org">{topic.source.org}</div>
           <div className="source-title">

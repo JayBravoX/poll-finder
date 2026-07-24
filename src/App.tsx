@@ -1,24 +1,43 @@
 import { useState } from 'react';
 import { SearchBar } from './components/SearchBar';
-import { ExampleChips } from './components/ExampleChips';
+import { SettingsPanel } from './components/SettingsPanel';
 import { ResultView } from './components/ResultView';
 import { resolveQuery } from './lib/resolve';
+import { getStoredApiKey, setStoredApiKey } from './lib/apiKeyStore';
 import type { PollResult } from './data/types';
 
 function App() {
   const [query, setQuery] = useState('');
   const [result, setResult] = useState<PollResult | null>(null);
   const [searched, setSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiKey, setApiKey] = useState(getStoredApiKey);
 
-  function runSearch(q: string) {
+  function saveApiKey(key: string) {
+    setApiKey(key);
+    setStoredApiKey(key);
+  }
+
+  async function runSearch(q: string) {
     setQuery(q);
     setSearched(true);
-    setResult(resolveQuery(q));
+    setLoading(true);
+    setResult(null);
+    try {
+      const r = await resolveQuery(q, apiKey);
+      setResult(r);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <div className="app">
       <header className="app-header">
+        <div className="app-header-top">
+          <div className="app-header-spacer" />
+          <SettingsPanel apiKey={apiKey} onSave={saveApiKey} />
+        </div>
         <h1>Poll Finder</h1>
         <p className="app-subtitle">
           Search any topic or statement to see how public opinion breaks down by age, gender, country, region, and
@@ -28,13 +47,18 @@ function App() {
 
       <main className="app-main">
         <SearchBar onSearch={runSearch} initialValue={query} />
-        <ExampleChips onPick={runSearch} />
 
-        {searched && !result && (
+        {loading && (
+          <p className="empty-state">
+            {apiKey ? 'Checking the curated dataset and searching the web…' : 'Checking the curated dataset…'}
+          </p>
+        )}
+
+        {!loading && searched && !result && (
           <p className="empty-state">Type a topic or statement above to see the poll breakdown.</p>
         )}
 
-        {result && <ResultView result={result} />}
+        {!loading && result && <ResultView result={result} />}
 
         <section className="about">
           <h2>How this works</h2>
@@ -44,10 +68,11 @@ function App() {
             demographic breakdowns are directly reported by the source versus modeled/illustrative approximations.
           </p>
           <p>
-            When nothing in the curated set matches, Poll Finder generates a clearly labeled{' '}
-            <strong>AI-simulated estimate</strong> instead of pretending a real poll exists. Simulated results are
-            deterministic (the same search always produces the same numbers) but are not measurements of real
-            opinion — treat them as illustrative only.
+            If nothing matches and you've added your own Anthropic API key in Settings, Poll Finder searches the
+            live web for a real, citable poll instead. If a real source is found, you see it labeled{' '}
+            <strong>live web search result</strong> with its source link. If no real data exists anywhere — in the
+            curated set or on the web — you see a clearly labeled, deterministic <strong>estimate</strong> instead
+            of a fabricated chart pretending to be real.
           </p>
         </section>
       </main>

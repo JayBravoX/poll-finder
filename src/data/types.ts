@@ -48,8 +48,8 @@ export interface PollTopic {
   breakdowns: Partial<Record<DimensionKey, Breakdown>>;
 }
 
-/** Distinguishes curated real-topic results from fully AI-simulated ones in the UI. */
-export type ResultKind = 'real' | 'estimated';
+/** Distinguishes curated real-topic results, live web-search-grounded results, and fully AI-simulated ones in the UI. */
+export type ResultKind = 'real' | 'live' | 'estimated';
 
 export interface PollResult {
   kind: ResultKind;
