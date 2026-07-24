@@ -21,16 +21,20 @@ gender, country, region, and religion**.
 2. **Search matching.** `src/lib/search.ts` scores your query against each
    curated topic's keywords and picks the best match above a threshold.
 
-3. **Optional live web search.** In Settings, you can paste your own
-   Anthropic API key (`src/components/SettingsPanel.tsx`). It's stored only
-   in your browser's local storage and used only for direct browser → 
-   Anthropic API calls (`src/lib/liveSearch.ts`) — never sent anywhere else,
-   since this app has no backend. When a key is set and nothing in the
-   curated dataset matches, Poll Finder asks Claude (with the `web_search`
-   server tool) to try to find a real, citable poll for the query. It only
-   returns a result if it found a genuine source with a real URL — it will
-   not fabricate one. Only demographic breakdowns the source itself reports
-   are shown; nothing is modeled or estimated for a live result.
+3. **Optional AI query rewriting + live web search.** In Settings, you can
+   paste your own Anthropic API key (`src/components/SettingsPanel.tsx`).
+   It's stored only in your browser's local storage and used only for
+   direct browser → Anthropic API calls (`src/lib/liveSearch.ts`) — never
+   sent anywhere else, since this app has no backend. When a key is set and
+   local keyword matching finds nothing, Poll Finder first asks Claude to
+   check whether the search is a paraphrase or casual phrasing of a curated
+   topic (e.g. "Is Trump good" → the curated Trump approval-rating poll) —
+   this is real curated data, just reached through smarter query
+   understanding instead of exact keywords. Only if nothing curated fits
+   does it fall back to the `web_search` server tool to try to find a real,
+   citable external poll. Either way, it only returns a result backed by a
+   genuine source — it will not fabricate one, and only demographic
+   breakdowns the source itself reports are shown for a live result.
 
 4. **Honest fallback.** If there's no API key, or the live search finds
    nothing real either, `src/lib/estimate.ts` generates a clearly labeled

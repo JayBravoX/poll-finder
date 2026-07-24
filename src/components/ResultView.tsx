@@ -39,6 +39,12 @@ export function ResultView({ result }: ResultViewProps) {
 
       <h2 className="result-question">{topic.query}</h2>
 
+      {result.matchMethod === 'ai' && result.rawQuery.toLowerCase() !== topic.query.toLowerCase() && (
+        <p className="ai-match-note">
+          Interpreted “{result.rawQuery}” as the closest real poll question above.
+        </p>
+      )}
+
       {kind === 'estimated' && (
         <p className="estimate-explainer">
           <strong>Why you're seeing this:</strong> no topic in Poll Finder's curated, real-poll dataset matched

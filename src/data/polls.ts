@@ -813,4 +813,69 @@ export const POLL_TOPICS: PollTopic[] = [
       },
     },
   },
+  {
+    id: 'trump-approval',
+    query: 'Do you approve of the job Donald Trump is doing as president?',
+    agreeLabel: 'Approve',
+    neutralLabel: 'No opinion / unsure',
+    disagreeLabel: 'Disapprove',
+    category: 'Politics',
+    keywords: [
+      'trump',
+      'donald trump',
+      'president trump',
+      'trump approval',
+      'is trump good',
+      'trump doing a good job',
+      'presidential approval',
+      'approve of trump',
+      'trump popular',
+      'trump rating',
+    ],
+    source: {
+      org: 'Emerson College Polling',
+      title: 'July 2026 National Poll: Democrats with 11-Point Generic Ballot Advantage',
+      url: 'https://emersoncollegepolling.com/july-2026-national-poll-democrats-with-11-point-generic-ballot-advantage/',
+      date: 'July 2026',
+      sampleNote: 'National survey of registered U.S. voters',
+    },
+    overall: { agree: 39, neutral: 4, disagree: 57 },
+    breakdowns: {
+      age: {
+        confidence: 'modeled',
+        note: 'Illustrative — approximates the widely-reported pattern of lower approval among younger adults seen across multiple 2026 polls (not this exact poll\'s crosstab).',
+        groups: [
+          { group: '18-29', agree: 28, neutral: 4, disagree: 68 },
+          { group: '30-49', agree: 36, neutral: 4, disagree: 60 },
+          { group: '50-64', agree: 42, neutral: 4, disagree: 54 },
+          { group: '65+', agree: 46, neutral: 4, disagree: 50 },
+        ],
+      },
+      gender: {
+        confidence: 'modeled',
+        note: 'Illustrative — approximates the substantial gender gap reported across multiple 2026 polls (men notably more approving than women), not this exact poll\'s crosstab.',
+        groups: [
+          { group: 'Men', agree: 47, neutral: 4, disagree: 49 },
+          { group: 'Women', agree: 32, neutral: 4, disagree: 64 },
+        ],
+      },
+      region: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'South', agree: 46, neutral: 4, disagree: 50 },
+          { group: 'Midwest', agree: 41, neutral: 4, disagree: 55 },
+          { group: 'Northeast', agree: 30, neutral: 4, disagree: 66 },
+          { group: 'West', agree: 33, neutral: 4, disagree: 63 },
+        ],
+      },
+      religion: {
+        confidence: 'modeled',
+        groups: [
+          { group: 'White evangelical Protestant', agree: 63, neutral: 3, disagree: 34 },
+          { group: 'Catholic', agree: 40, neutral: 4, disagree: 56 },
+          { group: 'Religiously unaffiliated', agree: 22, neutral: 4, disagree: 74 },
+        ],
+      },
+    },
+  },
 ];

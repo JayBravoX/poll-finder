@@ -31,10 +31,20 @@ const BREAKDOWN_ARRAY_SCHEMA = { type: 'array', items: GROUP_SPLIT_SCHEMA } as c
 const RESULT_SCHEMA = {
   type: 'object',
   properties: {
+    matched_topic_id: {
+      type: 'string',
+      description:
+        'If the query is a paraphrase, nickname, casual phrasing, or clear variant of one of the curated topics provided, the exact id string of that topic. Otherwise an empty string.',
+    },
+    query_interpretation: {
+      type: 'string',
+      description:
+        'A neutral one-sentence restatement of the closest real poll question this matches, worded like an actual survey question. Empty string if nothing matches at all.',
+    },
     found: {
       type: 'boolean',
       description:
-        'true only if you located a real, citable, published poll or survey via web search that answers or closely relates to the query',
+        'Only meaningful when matched_topic_id is empty. true only if you located a real, citable, published poll or survey via web search that answers or closely relates to the query',
     },
     category: { type: 'string' },
     agreeLabel: { type: 'string' },
@@ -65,32 +75,34 @@ const RESULT_SCHEMA = {
       additionalProperties: false,
     },
   },
-  required: ['found'],
+  required: ['matched_topic_id', 'found'],
   additionalProperties: false,
 } as const;
 
 const SYSTEM_PROMPT = `You are a research assistant for Poll Finder, an app that shows real public-opinion poll data broken down by demographic.
 
-Use the web_search tool to try to find a REAL, published poll or survey (from a reputable pollster or research organization — Pew Research, Gallup, YouGov, Ipsos, KFF, a national statistics agency, a peer-reviewed study, etc.) that answers or closely relates to the user's search.
+You will be given a user's free-text search and a list of curated real-poll topics already in the app's dataset. Do this in order:
 
-Rules:
+STEP 1 — Check the curated list first.
+If the query is a paraphrase, nickname, casual phrasing, shorthand, or clear variant of one of the curated topics (e.g. "Is Trump good" is clearly asking about the curated topic "Do you approve of the job Donald Trump is doing as president?"), set "matched_topic_id" to that topic's exact id string, set "query_interpretation" to that topic's actual question, and STOP — do not call web_search, do not fill in any other field.
+
+STEP 2 — Only if nothing in the curated list is a reasonable match, set "matched_topic_id" to "" and use the web_search tool to try to find a REAL, published poll or survey (from a reputable pollster or research organization — Pew Research, Gallup, YouGov, Ipsos, KFF, a national statistics agency, a peer-reviewed study, etc.) that answers or closely relates to the query.
+
+Rules for step 2:
 - Only report "found": true if you actually located a genuine, citable source with a real, working URL. Never invent a source, a statistic, or a URL.
-- If you cannot find a real poll or survey after searching, return {"found": false} and nothing else.
+- If you cannot find a real poll or survey after searching, return "found": false and set "query_interpretation" to "".
 - When you do find one: map its actual response options onto agree/neutral/disagree percentages that sum to 100, as faithfully as possible to what the source reported.
 - "agreeLabel"/"neutralLabel"/"disagreeLabel" should describe the real answer options from the source (not generic "Agree"/"Disagree").
 - Only include a breakdown for age, gender, country, region, or religion if the SAME source actually reports that exact crosstab. Do not estimate, model, or invent demographic splits that weren't in the source — omit dimensions you don't have real data for.
 - Each breakdown group's label should match how the source itself labels that group.
 - "source" must include the real organization name, the real title of the report/article, the real URL, and the real publication date (year, or year range).
-- "category" is a short 2-4 word topic label (e.g. "Criminal justice", "Public policy").`;
+- "category" is a short 2-4 word topic label (e.g. "Criminal justice", "Public policy").
+- Set "query_interpretation" to a one-sentence neutral restatement of the poll question the source actually asked.`;
 
-export interface LiveSearchResult {
-  found: false;
-}
-
-export interface LiveSearchSuccess {
-  found: true;
-  topic: PollTopic;
-}
+export type LiveOutcome =
+  | { kind: 'matched'; topicId: string; queryInterpretation: string }
+  | { kind: 'found'; topic: PollTopic }
+  | { kind: 'none' };
 
 function clampStance(raw: unknown): StanceSplit | null {
   if (!raw || typeof raw !== 'object') return null;
@@ -132,13 +144,22 @@ function isValidUrl(value: unknown): value is string {
 }
 
 /**
- * Calls Claude directly from the browser with the caller's own API key, using the
- * web_search server tool to try to find a real, cited poll for a query that didn't
- * match the curated dataset. Returns { found: false } rather than fabricating data
- * if no real source turns up.
+ * Calls Claude directly from the browser with the caller's own API key. First asks it to
+ * match the query against the curated topic list (handles paraphrases/nicknames/casual
+ * phrasing the local keyword search misses), and only if nothing matches, uses the
+ * web_search server tool to try to find a real, cited external poll. Never fabricates
+ * a source or numbers — returns { kind: 'none' } when nothing real turns up either way.
  */
-export async function fetchLiveResult(apiKey: string, rawQuery: string): Promise<LiveSearchResult | LiveSearchSuccess> {
+export async function resolveViaAI(
+  apiKey: string,
+  rawQuery: string,
+  curatedTopics: Pick<PollTopic, 'id' | 'query' | 'category'>[],
+): Promise<LiveOutcome> {
   const client = new Anthropic({ apiKey, dangerouslyAllowBrowser: true });
+
+  const topicList = curatedTopics
+    .map((t) => `- id="${t.id}" | question="${t.query}" | category="${t.category}"`)
+    .join('\n');
 
   const response = await client.messages.create({
     model: MODEL,
@@ -150,7 +171,12 @@ export async function fetchLiveResult(apiKey: string, rawQuery: string): Promise
     },
     tools: [{ type: 'web_search_20260209', name: 'web_search', max_uses: 5 }],
     system: SYSTEM_PROMPT,
-    messages: [{ role: 'user', content: rawQuery }],
+    messages: [
+      {
+        role: 'user',
+        content: `User's search: "${rawQuery}"\n\nCurated topics already in the app (check these first):\n${topicList}`,
+      },
+    ],
   });
 
   if (response.stop_reason === 'refusal') {
@@ -169,14 +195,23 @@ export async function fetchLiveResult(apiKey: string, rawQuery: string): Promise
     throw new Error('Could not parse the response.');
   }
 
+  const matchedId = typeof parsed.matched_topic_id === 'string' ? parsed.matched_topic_id.trim() : '';
+  if (matchedId && curatedTopics.some((t) => t.id === matchedId)) {
+    return {
+      kind: 'matched',
+      topicId: matchedId,
+      queryInterpretation: typeof parsed.query_interpretation === 'string' ? parsed.query_interpretation : '',
+    };
+  }
+
   if (!parsed.found) {
-    return { found: false };
+    return { kind: 'none' };
   }
 
   const overall = clampStance(parsed.overall);
   const source = parsed.source as Record<string, unknown> | undefined;
   if (!overall || !source || !isValidUrl(source.url)) {
-    return { found: false };
+    return { kind: 'none' };
   }
 
   const rawBreakdowns = (parsed.breakdowns as Record<string, unknown>) ?? {};
@@ -211,5 +246,5 @@ export async function fetchLiveResult(apiKey: string, rawQuery: string): Promise
     breakdowns,
   };
 
-  return { found: true, topic };
+  return { kind: 'found', topic };
 }

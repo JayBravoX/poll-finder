@@ -54,5 +54,11 @@ export type ResultKind = 'real' | 'live' | 'estimated';
 export interface PollResult {
   kind: ResultKind;
   topic: PollTopic;
+  /** The user's original, unmodified search text. */
+  rawQuery: string;
   matchScore?: number;
+  /** How a 'real' result was matched — plain keyword search, or AI query interpretation. */
+  matchMethod?: 'keyword' | 'ai';
+  /** For AI-matched results: the closest real poll question the query was interpreted as. */
+  queryInterpretation?: string;
 }
